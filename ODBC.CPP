@@ -6,7 +6,7 @@
         |                                                          |
         |            by Dave Roth (rothd@infowire.com)             |
         |                                                          |
-        |                 version v96.05.03 (hack)                 |
+        |                 version v96.05.08 (hack)                 |
         |                                                          |
         |    Copyright (c) 1996 Dave Roth. All rights reserved.    |
         |   This program is free software; you can redistribute    |
@@ -615,7 +615,7 @@ XS(XS_WIN32__ODBC_TableList) // ODBC_TableList($connection) returns (0,@TableNam
 {
 	dXSARGS;
 	ODBC_TYPE * h;
-	int        con_num;
+	int        con_num, iTemp;
 	UCHAR  buff2[ODBC_BUFF_SIZE];
 	SDWORD bufflenout;
 	UWORD  x;
@@ -674,6 +674,13 @@ XS(XS_WIN32__ODBC_TableList) // ODBC_TableList($connection) returns (0,@TableNam
 		for(x=1; x<=h->numcols; x++){
 			*buff2 = '\0';
 			SQLColAttributes(h->hstmt, x, SQL_COLUMN_NAME, buff2, ODBC_BUFF_SIZE, (short *)&bufflenout, NULL);
+
+				//	We need to convert the columns to uppercase since different
+				//	ODBC drivers impliment this differently (Access uses upperc, MS SQL server uses lowerc)
+				//	We should probably figure out a more reasonable solution.
+			for(iTemp = strlen((char *)buff2) - 1; iTemp >= 0; iTemp--){
+				buff2[iTemp] = (char) toupper(buff2[iTemp]);
+			}
 			XPUSHs(sv_2mortal(newSVpv((char *)buff2, strlen((const char*)buff2))));
 		}
 	}else{

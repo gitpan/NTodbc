@@ -6,12 +6,12 @@
         |                                                          |
         |            by Dave Roth (rothd@infowire.com)             |
         |                                                          |
-        |                 version v96.05.03 (hack)                 |
+        |                 version v96.05.08 (hack)                 |
         |                                                          |
         |                                                          |
         |                     ODBC.PM package                      |
         |                     ---------------                      |
-        |                    Release v96.04.10                     |
+        |                    Release v96.05.08                     |
         |                                                          |
         |    Copyright (c) 1996 Dave Roth. All rights reserved.    |
         |   This program is free software; you can redistribute    |
@@ -39,6 +39,10 @@ ODBC.PM HISTORY:
          -Fixed the RowCount() to default to the current connection.
 96.04.15 Dave Roth <rothd@infowire.com>		
 		 -Changed version numbers to a date format.
+96.05.07 Dave Roth <rothd@infowire.com>
+         -Fixed Data(): If returning an array, the array consisted of
+          the requested fieldnames + the values. Now only returns the
+          values. Thanks to Dan Westerlund <westerlund@dkraft.se>!
 
 ODBC.PLL HISTORY:
 ----------------
@@ -69,6 +73,11 @@ ODBC.PLL HISTORY:
 		 -Set the lowest allocated char array to be 20 bytes in ODBCFetchRow().
 		  Evidentally sometimes the ODBC manager will report too few chars 
 		  that are needed to represent an autonumber field.
+96.05.08 Dave Roth <rothd@infowire.com>
+		 -Convert all results from ODBCTableList() to uppercase since different
+		  ODBC drivers impliment this differently (some uppercase some lower).
+		  Thanks again to Jutta M. Klebe <jmk@exc.bybyte.de>
+		  *** This patch is open for suggestions!!! ***
 		  
         
 

@@ -69,7 +69,7 @@ char *MapCloseType(UWORD uCloseType);
 void CleanError(ODBC_TYPE *h);
 
 #define	VERNAME		"ODBC extension for Win32 Perl"
-#define VERSION		"v96.05.03 (hack)"
+#define VERSION		"v96.05.08 (hack)"
 #define VERDATE		__DATE__
 #define VERAUTH     "Dave Roth (rothd@infowire.com)"
 #define VERCRED		"Based on original code by Dan DeMaggio (dmag@umich.edu)."	

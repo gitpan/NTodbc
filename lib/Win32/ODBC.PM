@@ -5,7 +5,7 @@ package Win32::ODBC;
 #       |                                                          |
 #       |                     ODBC.PM package                      |
 #       |                     ---------------                      |
-#       |                    Release v96.04.10                     |
+#       |                    Release v96.05.08                     |
 #       |                                                          |
 #       |    Copyright (c) 1996 Dave Roth. All rights reserved.    |
 #       |   This program is free software; you can redistribute    |
@@ -107,32 +107,32 @@ sub sql
 sub Data{
 
         #   Change by JOC 06-APR-96
-        #   return (data(@_));
-    my($obj) = shift;
-    my(@rc, $rc, $elem) = @_;
+        #   Altered by Dave Roth <rothd@infowire.com> 96.05.07
+    my($self) = shift;
+    my(@Fields) = @_;
+    my(@Result, $Result, $Field);
 
-    @rc = @{$self->{'fnames'}} if (! scalar(@rc));
-    foreach $elem (@rc) {
+    @Fields = @{$self->{'fnames'}} if (! scalar(@Fields));
+    foreach $Field (@Fields) {
         if (wantarray) {
-            push(@rc, data($obj, $elem));
+            push(@Result, data($self, $Field));
         } else {
-            $rc .= data($obj, $elem);
+            $Result .= data($self, $Field);
         }
     }
-
-    return wantarray ? @rc : $rc;
+    return wantarray ? @Result : $Result;
 }
 
 sub DataHash{
     my($self) = shift;
-    my(@rc) = @_;
-    my(%rc, $elem);
-    @rc = @{$self->{'fnames'}} if (! scalar(@rc));
-    foreach $elem (@rc) {
-        $rc{$elem} = data($self, $elem);
+    my(@Result) = @_;
+    my(%Result, $Element);
+    @Result = @{$self->{'fnames'}} if (! scalar(@Result));
+    foreach $Element (@Result) {
+        $Result{$Element} = data($self, $Element);
     }
 
-    return %rc;
+    return %Result;
 }
 
 ####
@@ -150,21 +150,20 @@ sub FetchRow{
 ####
 sub fetchrow{
     my ($self) = shift;
-    my ($item, $num, $sqlcode, @r);
+    my ($item, $num, $sqlcode, @Result);
         # Added by JOC 06-APR-96
         #   $num = 0;
     $num = 0;
     undef $self->{'data'};
-#    $self->{'data'} = {};
 
-    @r = ODBCFetch($self->{'connection'});
+    @Result = ODBCFetch($self->{'connection'});
 
-    $sqlcode = shift(@r);
+    $sqlcode = shift(@Result);
     if ($sqlcode){
-        $self->{'error'} = shift(@r);
+        $self->{'error'} = shift(@Result);
         return undef;
     }
-    foreach $item (@r){
+    foreach $item (@Result){
         $item =~ s/ +$//; # HACK
         $self->{'data'}->{ ${$self->{'fnames'}}[$num] } = $item;
         $num++;
@@ -217,6 +216,7 @@ sub processError{
 
 ####
 #   Retrieve the catalog from the current DSN
+#	NOTE: All Field names are uppercase!!!
 ####
 sub Catalog
 {
@@ -230,6 +230,7 @@ sub Catalog
 #   Return an array of names from the catalog for the current DSN
 #       TableList($Qualifier, $Owner, $Name, $Type)
 #           Return: (array of names of tables)
+#	NOTE: All Field names are uppercase!!!
 ####
 sub TableList{
     my ($self) = shift;
