@@ -5,7 +5,7 @@ package Win32::ODBC;
 #       |                                                          |
 #       |                     ODBC.PM package                      |
 #       |                     ---------------                      |
-#       |                    Release v96.05.08                     |
+#       |                    Release v96.05.11                     |
 #       |                                                          |
 #       |    Copyright (c) 1996 Dave Roth. All rights reserved.    |
 #       |   This program is free software; you can redistribute    |
@@ -423,8 +423,8 @@ sub GetStmtCloseType{
 #   Returns the newly set value.
 ####
 sub SetStmtCloseType{
-    my($self, $Connection, $Type) = @_;
-    if (! ref($self)){$Connection = $self;}
+    my($self, $Type, $Connection) = @_;
+    if (! ref($self)){$Type = $self;}
     if (! $Connection){$Connection = $self->{'connection'};}
     my(@Result) = ODBCSetStmtCloseType($Connection, $Type);
     return (processError($self, @Result));

@@ -68,10 +68,11 @@ RETCODE ResetStmt(ODBC_TYPE *h);
 char *MapCloseType(UWORD uCloseType);
 void CleanError(ODBC_TYPE *h);
 
+
 #define	VERNAME		"ODBC extension for Win32 Perl"
-#define VERSION		"v96.05.08 (hack)"
+#define VERSION		"v960513"
 #define VERDATE		__DATE__
-#define VERAUTH     "Dave Roth (rothd@infowire.com)"
-#define VERCRED		"Based on original code by Dan DeMaggio (dmag@umich.edu)."	
+#define VERAUTH     "Dave Roth <rothd@infowire.com>"
+#define VERCRED		"Copyright (c) 1996 Dave Roth.\nBased on original code by Dan DeMaggio <dmag@umich.edu>."	
 					 
 

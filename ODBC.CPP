@@ -6,7 +6,7 @@
         |                                                          |
         |            by Dave Roth (rothd@infowire.com)             |
         |                                                          |
-        |                 version v96.05.08 (hack)                 |
+        |                  version v960513 (hack)                  |
         |                                                          |
         |    Copyright (c) 1996 Dave Roth. All rights reserved.    |
         |   This program is free software; you can redistribute    |
@@ -539,10 +539,19 @@ XS(XS_WIN32__ODBC_Fetch) // ODBC_Fetch($connection) returns (0,@dataelements) or
 	if (!h->error){		 // everything is happy
 		XPUSHs(sv_2mortal(newSVnv((double)0)));
 		for(x=1; x<=h->numcols; x++){
-			if (SQLColAttributes(h->hstmt, x, SQL_COLUMN_LENGTH, NULL, NULL, NULL, &bufflenout) == SQL_SUCCESS){
-						//	Removed the ++bufflenout to prevent the wrap-around bug
-						//	(when bufflenout = 2147483647, adding 1 yields -2147483648. Bad, very bad.
-						//	A whopping big thanks to Jutta M. Klebe <jmk@exc.bybyte.de>	96.04.21
+						/*
+							Needed to change SQL_COLUMN_LENGTH to SQL_COLUMN_DISPLAY_SIZE. The
+							former found the # of bytes needed to represent the C data type
+							in memory. The latter is used to find the # of bytes needed to store
+							an ASCII version of the data. 
+							Way big Thanks to Mike Knister <knister@sierra.net> 96.05.13
+						*/
+			if (SQLColAttributes(h->hstmt, x, SQL_COLUMN_DISPLAY_SIZE, NULL, NULL, NULL, &bufflenout) == SQL_SUCCESS){
+						/*
+							Removed the ++bufflenout to prevent the wrap-around bug
+							(when bufflenout = 2147483647, adding 1 yields -2147483648. Bad, very bad.
+							A whopping big thanks to Jutta M. Klebe <jmk@exc.bybyte.de>	96.04.21
+						*/
 				if (iBuf < bufflenout){
 					if (szBuf){
 						delete szBuf;

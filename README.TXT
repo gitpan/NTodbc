@@ -6,12 +6,12 @@
         |                                                          |
         |            by Dave Roth (rothd@infowire.com)             |
         |                                                          |
-        |                 version v96.05.08 (hack)                 |
+        |                  version v960513 (hack)                  |
         |                                                          |
         |                                                          |
         |                     ODBC.PM package                      |
         |                     ---------------                      |
-        |                    Release v96.05.08                     |
+        |                     Release v960511                      |
         |                                                          |
         |    Copyright (c) 1996 Dave Roth. All rights reserved.    |
         |   This program is free software; you can redistribute    |
@@ -43,6 +43,9 @@ ODBC.PM HISTORY:
          -Fixed Data(): If returning an array, the array consisted of
           the requested fieldnames + the values. Now only returns the
           values. Thanks to Dan Westerlund <westerlund@dkraft.se>!
+96.05.11 Dave Roth <rothd@infowire.com>
+		 -Corrected SetStmtCloseType(): it was using the CloseType as
+		  if it was a ConnectionNumber instead.
 
 ODBC.PLL HISTORY:
 ----------------
@@ -78,9 +81,14 @@ ODBC.PLL HISTORY:
 		  ODBC drivers impliment this differently (some uppercase some lower).
 		  Thanks again to Jutta M. Klebe <jmk@exc.bybyte.de>
 		  *** This patch is open for suggestions!!! ***
+96.05.13 Mike Knister <knister@sierra.net>
+		 -Change SQL_COLUMN_LENGTH to SQL_COLUMN_DISPLAY_SIZE in the SQLColAttributes()
+		  line withing ODBC_Fetch(). This was returning the number of bytes needed
+		  to represent the C data type for the particular column. We need it to
+		  return the number of bytes needed to represent an ASCII version of the value
+		  held within the data type.
 		  
         
-
 
 Following in tradition...
 *****************************************************************************
@@ -140,7 +148,7 @@ archive. You must first, however alter TEST.PL:
 
 
 ** I use a directory structure of \Perl\lib for my library files and this doc is
-** assuming you do to. You will, of course, have to compensate for deviations.
+** assuming you do too. You will, of course, have to compensate for deviations.
 
 
     T O   I N S T A L L   T H I S   B E A S T :
@@ -258,9 +266,11 @@ GetConnections()
     currently open.
     returns: Array of connections
 
-GetStmtCloseType()
+GetStmtCloseType([$Connection])
     Returns the type of closure that will be used everytime the hstmt is freed.
     See SetStmtClsoeType() for details.
+    By default, the currect object's connection will be used. If $Connection
+    is a valid connection number, then it will be used.
     returns: String.
 
 GetDSN($Con)
@@ -309,9 +319,11 @@ SetMaxBufSize($Size)
     increase the limit up to a ceiling of 2147483647 (recompile if you need more).
     returns: Max number of bytes.
 
-SetStmtCloseType($Type)
+SetStmtCloseType($Type [, $Connection])
     This will set a particular hstmt close type for the connection. This is
     the same as ODBCFreeStmt(hstmt, $Type).
+    By default, the currect object's connection will be used. If $Connection
+    is a valid connection number, then it will be used.
     Types:
         SQL_CLOSE
         SQL_DROP

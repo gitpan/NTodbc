@@ -23,7 +23,7 @@
     $DSN = "xxx" unless (($DSN) = @ARGV);
 
     $iWidth=60;
-    %SQLStmtTypes = (0, "SQL_CLOSE", 1, "SQL_DROP", 2, "SQL_UNBIND", 3, "SQL_RESET_PARAMS");
+    %SQLStmtTypes = (SQL_CLOSE, "SQL_CLOSE", SQL_DROP, "SQL_DROP", SQL_UNBIND, "SQL_UNBIND", SQL_RESET_PARAMS, "SQL_RESET_PARAMS");
 
     ($Name, $Version, $Date, $Author, $CompileDate, $CompileTime, $Credits) = Win32::ODBC::Info();
     print "\n";
@@ -137,9 +137,11 @@
 
     print "\n------- T E S T  # 6  (Set/query Stmt Close Type      ) ----";
     print "\n-------                                                 ----\n";
-    print "\nStatement Close Type is currently set as " . $SQLStmtTypes{$O->GetStmtCloseType()} . " " . $O->Error . "\n";
-    print "Setting Statement Close Type to SQL_CLOSE: (returned code of " . $SQLStmtTypes{$O->SetStmtCloseType(SQL_CLOSE)} . ")" . $O->Error . "\n";
-    print "Statement Close Type is currently set as " . $SQLStmtTypes{$O->GetStmtCloseType()} . " " . $O->Error ."\n";
+
+
+    print "\nStatement Close Type is currently set as ", $O->GetStmtCloseType(), " " . $O->Error . "\n";
+    print "Setting Statement Close Type to SQL_CLOSE: (returned code of ",  $O->SetStmtCloseType(SQL_CLOSE), ")" . $O->Error . "\n";
+    print "Statement Close Type is currently set as ", $O->GetStmtCloseType(), " " . $O->Error ."\n";
 
 
     print "\n------- T E S T  # 7  (Dump DSN for current connection) ----";

@@ -80,10 +80,10 @@ LINK32=link.exe
 # SUBTRACT LINK32 /VERBOSE
 LINK32_FLAGS=kernel32.lib user32.lib advapi32.lib netapi32.lib odbc32.lib\
  odbccp32.lib /NOLOGO /BASE:0x101f0000 /VERSION:0,5 /SUBSYSTEM:windows /DLL\
- /INCREMENTAL:yes /PDB:$(OUTDIR)/"ODBC.pdb" /MACHINE:I386 /DEF:".\odbc.def"\
+ /INCREMENTAL:yes /PDB:$(OUTDIR)/"ODBC.pdb" /MACHINE:I386 /DEF:".\ODBC.DEF"\
  /FORCE /OUT:"c:\perl\lib\auto\Win32\odbc\ODBC.PLL" /IMPLIB:$(OUTDIR)/"ODBC.lib"\
  
-DEF_FILE=".\odbc.def"
+DEF_FILE=".\ODBC.DEF"
 LINK32_OBJS= \
 	$(INTDIR)/"ODBC.OBJ"
 
@@ -138,9 +138,9 @@ LINK32=link.exe
 # ADD LINK32 kernel32.lib user32.lib advapi32.lib netapi32.lib odbc32.lib odbccp32.lib /NOLOGO /BASE:0x101f0000 /SUBSYSTEM:windows /DLL /DEBUG /MACHINE:I386 /FORCE /OUT:"c:\perl\lib\auto\Win32\odbc\ODBC.PLL"
 LINK32_FLAGS=kernel32.lib user32.lib advapi32.lib netapi32.lib odbc32.lib\
  odbccp32.lib /NOLOGO /BASE:0x101f0000 /SUBSYSTEM:windows /DLL /INCREMENTAL:yes\
- /PDB:$(OUTDIR)/"ODBC.pdb" /DEBUG /MACHINE:I386 /DEF:".\odbc.def" /FORCE\
+ /PDB:$(OUTDIR)/"ODBC.pdb" /DEBUG /MACHINE:I386 /DEF:".\ODBC.DEF" /FORCE\
  /OUT:"c:\perl\lib\auto\Win32\odbc\ODBC.PLL" /IMPLIB:$(OUTDIR)/"ODBC.lib" 
-DEF_FILE=".\odbc.def"
+DEF_FILE=".\ODBC.DEF"
 LINK32_OBJS= \
 	$(INTDIR)/"ODBC.OBJ"
 
@@ -198,9 +198,9 @@ LINK32=link.exe
 # SUBTRACT LINK32 /VERBOSE /FORCE
 LINK32_FLAGS=kernel32.lib user32.lib advapi32.lib netapi32.lib odbc32.lib\
  odbccp32.lib /NOLOGO /BASE:0x101f0000 /VERSION:0,5 /SUBSYSTEM:windows /DLL\
- /INCREMENTAL:yes /PDB:$(OUTDIR)/"ODBC.pdb" /MACHINE:I386 /DEF:".\odbc.def"\
+ /INCREMENTAL:yes /PDB:$(OUTDIR)/"ODBC.pdb" /MACHINE:I386 /DEF:".\ODBC.DEF"\
  /OUT:"c:\perl\lib\auto\win32\odbc\odbc105.pll" /IMPLIB:$(OUTDIR)/"ODBC.lib" 
-DEF_FILE=".\odbc.def"
+DEF_FILE=".\ODBC.DEF"
 LINK32_OBJS= \
 	$(INTDIR)/"ODBC.OBJ"
 
@@ -226,7 +226,7 @@ LINK32_OBJS= \
 ################################################################################
 # Begin Source File
 
-SOURCE=.\odbc.def
+SOURCE=.\ODBC.DEF
 # End Source File
 ################################################################################
 # Begin Source File
